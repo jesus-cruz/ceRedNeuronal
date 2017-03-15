@@ -1,2 +1,4 @@
-# ce
-Neural Networks Course Assignments 
+# Computación Evolutiva
+## Neural Networks Course Assignments 
+- [ ] Clasificar datos  
+- [ ] Red Neuronal en Java
