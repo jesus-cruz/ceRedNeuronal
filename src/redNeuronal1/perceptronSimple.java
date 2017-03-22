@@ -16,7 +16,8 @@ public class perceptronSimple {
 
 	float[][] datosNand = { { -1, -1, 1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, -1 } };
 	float[][] datosOr = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, 1 } };
-
+	float[][] datosXor = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, -1 } };
+	
 	private int falsosPositivos;
 	private int falsosNegativos;
 
