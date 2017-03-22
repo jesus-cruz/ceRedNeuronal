@@ -7,9 +7,7 @@ import java.util.Random;
  * @author jesus-cruz
  */
 public class perceptronSimple {
-	/*
-	 * Perceptron simple (-1,-1) -1 (-1,+1) -1 (+1,-1) -1 (+1,+1) +1
-	 */
+	
 	// Datos para probar, más adelante vendrán de un archivo
 	float[][] datos = { { -1, -1, -1 }, 
 						{ -1, 1, -1 }, 
@@ -19,12 +17,15 @@ public class perceptronSimple {
 	float[][] datosNand = { { -1, -1, 1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, -1 } };
 	float[][] datosOr = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, 1 } };
 
+	private int falsosPositivos;
+	private int falsosNegativos;
+
 	// La función signo
 	int funcionSigno(float f) {
 		// Positiva
 		if (f > 0) {
 			return 1;
-		} else if (f <= 0) { // negativa o 0
+		} else if (f <= 0) { // negativa ó 0
 			return -1;
 		}
 		// devolver error
@@ -57,10 +58,14 @@ public class perceptronSimple {
 		float razonAprendizaje = 1;
 
 		// El numero de muestras, en el caso de AND es 4
-		int sMuestras = 4;
+		float sMuestras = 4;
 
 		float valorObtenido;
 		float valorDeseado;
+		
+		// Error
+		int falsosPositivos = 0;
+		int falsosNegativos = 0;
 		
 		// Mas adelante las iteraciones maximas sera un parametro
 		int itMax = 40;
@@ -81,17 +86,18 @@ public class perceptronSimple {
 					datos[k][1], umbral));
 			valorDeseado = datos[k][2];
 
-			if (valorDeseado != valorObtenido) { // y!=d(x)
-				
-				
+			if (valorDeseado != valorObtenido) { // y!=d(x)		
 				// Calculamos Delta de los pesos y del umbral
 				peso1 = peso1 + (razonAprendizaje * datos[k][2] * datos[k][0]);
 				peso2 = peso2 + (razonAprendizaje * datos[k][2] * datos[k][1]);
-				umbral = umbral + (razonAprendizaje * datos[k][2]);
-
+				umbral = umbral + (razonAprendizaje * datos[k][2]);		
+				
 				k = 0;	// Si está mal clasificado volvemos a k=0
 				System.out.println("Nuevos pesos-> \nw1: " + peso1 + "\nw2 " + peso2 + "\numbral: " + umbral);
-
+				
+				calcularErrorEjercicio1(sMuestras, peso1, peso2, umbral);
+				
+				
 			} else if (valorDeseado - valorDeseado == 0) { // y == d(x)
 				System.out.println("La k" + k + " esta bien clasificada");
 				System.out.println("-----------------------------------");
@@ -104,6 +110,36 @@ public class perceptronSimple {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Calcula el error cometido por la red cada vez que se modifican los pesos
+	 * @param sMuestras
+	 * @param peso1
+	 * @param peso2
+	 * @param umbral
+	 */
+	private void calcularErrorEjercicio1(float sMuestras, float peso1, float peso2,float umbral) {
+		float error = 0;
+		float valorObtenido = 0;
+		float valorDeseado = 0;
+		
+		for ( int j = 0; j < sMuestras; j++){
+			valorObtenido = funcionSigno(calcularPotencialInterno(peso1, peso2, datos[j][0],
+					datos[j][1], umbral));
+			valorDeseado = datos[j][2];
+			if ( valorObtenido == 1 && valorDeseado == -1){
+				falsosPositivos++;
+			}
+			if ( valorObtenido == -1 && valorDeseado == 1 ){
+				falsosNegativos++;
+			}
+			error = error + (valorObtenido - valorDeseado);
+		}
+		error = (float) (error*(1/(2*sMuestras)));
+		System.out.println("Error cometido por la red: " + error + " \nfalsos positivos: " 
+		+ falsosPositivos + " \nfalsos negativos: " + falsosNegativos);
+		
 	}
 
 	/**
