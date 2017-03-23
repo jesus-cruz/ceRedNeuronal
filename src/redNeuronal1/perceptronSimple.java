@@ -18,9 +18,6 @@ public class perceptronSimple {
 	float[][] datosOr = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, 1 } };
 	float[][] datosXor = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, -1 } };
 	
-	private int falsosPositivos;
-	private int falsosNegativos;
-
 	// La función signo
 	int funcionSigno(float f) {
 		// Positiva
@@ -124,6 +121,8 @@ public class perceptronSimple {
 		float error = 0;
 		float valorObtenido = 0;
 		float valorDeseado = 0;
+		int falsosPositivos = 0;
+		int falsosNegativos = 0;
 		
 		for ( int j = 0; j < sMuestras; j++){
 			valorObtenido = funcionSigno(calcularPotencialInterno(peso1, peso2, datos[j][0],
