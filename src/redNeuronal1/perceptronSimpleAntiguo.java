@@ -6,7 +6,7 @@ import java.util.Random;
  *
  * @author jesus-cruz
  */
-public class perceptronSimple {
+public class perceptronSimpleAntiguo {
 	
 	// Datos para probar, más adelante vendrán de un archivo
 	float[][] datos = { { -1, -1, -1 }, 
@@ -152,16 +152,5 @@ public class perceptronSimple {
 				+ funcionSigno(calcularPotencialInterno(peso1, peso2, 1, -1, umbral)));
 		System.out.println("Por ejemplo para 1,1 daría "
 				+ funcionSigno(calcularPotencialInterno(peso1, peso2, 1, 1, umbral)));
-	}
-
-	/**
-	 * @param args
-	 *            the command line arguments
-	 */
-	public static void main(String[] args) {
-		// TODO code application logic here
-		perceptronSimple red = new perceptronSimple();
-		red.calcularRedNeuronal(40);
-
-	}
+	}	
 }
