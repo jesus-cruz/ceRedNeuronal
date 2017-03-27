@@ -43,31 +43,21 @@ public class perceptronSimple {
 		return peso1 * x1 + peso2 * x2 + umbral;
 	}
 
-	void calcularRedNeuronal() {
-		// Mas adelante habra que calcular n, que sera entrada - 1
-		int n = 2;
-
+	boolean calcularRedNeuronal(int itMax) {
 		// Inicio aleaotrio de los pesos y el umbral
 		Random rand = new Random();
 		float peso1 = rand.nextFloat() * (1 - (-1)) + (-1);
 		float peso2 = rand.nextFloat() * (1 - (-1)) + (-1);
 		float umbral = rand.nextFloat() * (1 - (-1)) + (-1);
 
+		// 
 		float razonAprendizaje = 1;
 
 		// El numero de muestras, en el caso de AND es 4
 		float sMuestras = 4;
 
-		float valorObtenido;
-		float valorDeseado;
-		
-		// Error
-		int falsosPositivos = 0;
-		int falsosNegativos = 0;
-		
-		// Mas adelante las iteraciones maximas sera un parametro
-		int itMax = 40;
-		
+		float valorObtenido,valorDeseado;
+			
 		// el patron actual
 		int k = 0;
 
@@ -92,9 +82,8 @@ public class perceptronSimple {
 				
 				k = 0;	// Si está mal clasificado volvemos a k=0
 				System.out.println("Nuevos pesos-> \nw1: " + peso1 + "\nw2 " + peso2 + "\numbral: " + umbral);
-				
-				calcularErrorEjercicio1(sMuestras, peso1, peso2, umbral);
-				
+				// Calculamos el error
+				calcularErrorEjercicio1(sMuestras, peso1, peso2, umbral);				
 				
 			} else if (valorDeseado - valorDeseado == 0) { // y == d(x)
 				System.out.println("La k" + k + " esta bien clasificada");
@@ -104,10 +93,12 @@ public class perceptronSimple {
 				// Comprobamos si ya están bien clasificadas todas las muestras
 				if (k == sMuestras) {
 					imprimirResultado(peso1,peso2,umbral);
-					return;
+					return true;
 				}
 			}
 		}
+		// hemos pasado el número máximo de iteraciones
+		return false;
 	}
 
 	/**
@@ -118,12 +109,10 @@ public class perceptronSimple {
 	 * @param umbral
 	 */
 	private void calcularErrorEjercicio1(float sMuestras, float peso1, float peso2,float umbral) {
-		float error = 0;
-		float valorObtenido = 0;
-		float valorDeseado = 0;
-		int falsosPositivos = 0;
-		int falsosNegativos = 0;
+		float error = 0, valorObtenido = 0,valorDeseado = 0;
+		int falsosPositivos = 0,falsosNegativos = 0;
 		
+		// Calculamos el sumatorio de los kt y los falsos positivos y negativos
 		for ( int j = 0; j < sMuestras; j++){
 			valorObtenido = funcionSigno(calcularPotencialInterno(peso1, peso2, datos[j][0],
 					datos[j][1], umbral));
@@ -134,12 +123,16 @@ public class perceptronSimple {
 			if ( valorObtenido == -1 && valorDeseado == 1 ){
 				falsosNegativos++;
 			}
-			error = error + (valorObtenido - valorDeseado);
+			
+			// Error(kt) = |dt-yt|
+			error = error + Math.abs(valorDeseado - valorObtenido);
 		}
+		
+		// Error=(1/2s)suma(Error(kt),t,1,s)
 		error = (float) (error*(1/(2*sMuestras)));
+		
 		System.out.println("Error cometido por la red: " + error + " \nfalsos positivos: " 
 		+ falsosPositivos + " \nfalsos negativos: " + falsosNegativos);
-		
 	}
 
 	/**
@@ -168,7 +161,7 @@ public class perceptronSimple {
 	public static void main(String[] args) {
 		// TODO code application logic here
 		perceptronSimple red = new perceptronSimple();
-		red.calcularRedNeuronal();
+		red.calcularRedNeuronal(40);
 
 	}
 }
