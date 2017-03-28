@@ -153,4 +153,11 @@ public class perceptronSimpleAntiguo {
 		System.out.println("Por ejemplo para 1,1 daría "
 				+ funcionSigno(calcularPotencialInterno(peso1, peso2, 1, 1, umbral)));
 	}	
+	
+	public static void main(String[] args) {
+		// TODO code application logic here
+		perceptronSimpleAntiguo red = new perceptronSimpleAntiguo();
+		red.calcularRedNeuronal(40);
+		
+	}
 }

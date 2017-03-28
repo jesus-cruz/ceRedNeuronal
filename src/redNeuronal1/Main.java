@@ -12,11 +12,11 @@ public class Main {
 		
 		lectorCsv.cargarArchivo("sources/appendicitisModificado.dat");
 		float[][] datos = { { -1, -1, -1 }, 
-				{ -1, 1, -1 }, 
-				{ 1, -1, -1 }, 
-				{ 1, 1, 1 } };
+							{ -1, 1, -1 }, 
+							{ 1, -1, -1 }, 
+							{ 1, 1, 1 } };
 		
-		//red.calcularRedNeuronal(40,lectorCsv.cargarDatos());
+		//red.calcularRedNeuronal(50,lectorCsv.cargarDatos());
 		red.calcularRedNeuronal(40, datos);
 	}
 }
