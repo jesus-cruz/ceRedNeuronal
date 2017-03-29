@@ -11,12 +11,16 @@ public class Main {
 		CSVReaderDataSet lectorCsv = new CSVReaderDataSet();
 		
 		lectorCsv.cargarArchivo("sources/appendicitisModificado.dat");
-		float[][] datos = { { -1, -1, -1 }, 
+		double[][] datos2 = { { -1, -1, -1 }, 
 							{ -1, 1, -1 }, 
 							{ 1, -1, -1 }, 
 							{ 1, 1, 1 } };
+		double[][] datos = { { 0, 0, 0 }, 
+							{ 0, 1, 0 }, 
+							{ 1, 0, 0 }, 
+							{ 1, 1, 1 }};
 		
-		//red.calcularRedNeuronal(50,lectorCsv.cargarDatos());
-		red.calcularRedNeuronal(40, datos);
+		//red.calcularRedNeuronal(10,lectorCsv.cargarDatos(), 0.1981132075471698 ,0);
+		red.calcularRedNeuronal(25, datos, (float) 0.1 ,0);
 	}
 }

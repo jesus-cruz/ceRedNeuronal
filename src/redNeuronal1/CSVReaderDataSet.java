@@ -13,9 +13,9 @@ public class CSVReaderDataSet {
 		rutaArchivo = ruta;
 	}
 
-	public float[][] cargarDatos(){
+	public double[][] cargarDatos(){
 		// Deberiamos leer las variables para saber su número
-		float[][] datos = new float[106][8];
+		double[][] datos = new double[106][8];
 
 		CSVReader reader = null;
 		try {
