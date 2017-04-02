@@ -175,7 +175,7 @@ public class PerceptronSimpleMejorado {
 		if ( tipo == -1){
 			// Calculamos el sumatorio de los kt y los falsos positivos y negativos
 			for ( int j = 0; j < sMuestras; j++){
-				valorObtenido = funcionSigno(calcularPotencialInterno(datos,pesos, umbral,k));
+				valorObtenido = funcionSigno(calcularPotencialInterno(datos,pesos, umbral,j));
 				valorDeseado = datos[j][pesos.length];
 				if ( valorObtenido == 1 && valorDeseado == -1){
 					falsosPositivos++;
@@ -192,7 +192,7 @@ public class PerceptronSimpleMejorado {
 		}  else if ( tipo == 0 ){
 			// Calculamos el sumatorio de los kt y los falsos positivos y negativos
 			for ( int j = 0; j < sMuestras; j++){
-				valorObtenido = funcionSigno(calcularPotencialInterno(datos,pesos, umbral,k));
+				valorObtenido = funcionSigno(calcularPotencialInterno(datos,pesos, umbral,j));
 				valorDeseado = datos[j][pesos.length];
 				if ( valorObtenido == 1 && valorDeseado == 0){
 					falsosPositivos++;
