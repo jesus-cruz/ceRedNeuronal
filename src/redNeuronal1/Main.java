@@ -10,17 +10,20 @@ public class Main {
 		PerceptronSimpleMejorado red = new PerceptronSimpleMejorado();
 		CSVReaderDataSet lectorCsv = new CSVReaderDataSet();
 		
+		// Los posibles datos a cargar
 		lectorCsv.cargarArchivo("sources/appendicitisModificado.dat");
-		double[][] datos2 = { { -1, -1, -1 }, 
+		
+		double[][] datosAndNegativa = { { -1, -1, -1 }, 
 							{ -1, 1, -1 }, 
 							{ 1, -1, -1 }, 
 							{ 1, 1, 1 } };
-		double[][] datos = { { 0, 0, 0 }, 
+		double[][] datosAnd = { { 0, 0, 0 }, 
 							{ 0, 1, 0 }, 
 							{ 1, 0, 0 }, 
 							{ 1, 1, 1 }};
 		
-		red.calcularRedNeuronal(10,lectorCsv.cargarDatos(), 0.1981132075471698 ,0);
+		//red.calcularRedNeuronal(10,lectorCsv.cargarDatos(), 0.1981132075471698 ,0);
 		//red.calcularRedNeuronal(25, datos, (float) 0.1 ,0);
+		red.calcularRedNeuronal(25, datosAnd, 0, 0);
 	}
 }
