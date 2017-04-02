@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
-import org.nevec.rjm.BigDecimalMath;
-
 /**
  *
  * @author jesus-cruz
@@ -55,25 +53,8 @@ public class PerceptronSimpleMejorado {
 		return potencialInterno + umbral;
 	}
 	
-	double calcularRazonAprendizaje(double razon,int t, int itMax ){
-		/* Incrementar la precisión implica devolver una razon mas precisa y habría que usar BigDecimalMath
-		también en el cálculo del incremento de los pesos */
-		/*if ( razon == 0){
-			return 0;
-		}
-		BigDecimal alpha = new BigDecimal(0.1);
-		BigDecimal tBigNeg = new BigDecimal(-t);
-		BigDecimal c = new BigDecimal(itMax/2);
-		
-		BigDecimal denominador = BigDecimalMath.pow(alpha, ( BigDecimalMath.addRound(tBigNeg, c )));
-		
-		denominador = BigDecimalMath.add(denominador, new BigInteger("1"));
-		
-		BigDecimal razonDecimal = BigDecimalMath.divideRound(new BigInteger("1"), denominador);
-		
-		razon = razonDecimal.doubleValue();*/
-		
-		double alpha = 0.28;
+	double calcularRazonAprendizaje(double razon,int t, int itMax ){		
+		double alpha = 0.28;	// min 0.28
 		double c = itMax/2;
 		razon = 1 / ( 1 + (Math.exp(Math.pow(alpha, (-t + c )) )));
 		
