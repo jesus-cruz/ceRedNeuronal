@@ -22,8 +22,8 @@ public class Main {
 							{ 1, 0, 0 }, 
 							{ 1, 1, 1 }};
 		
-		//red.calcularRedNeuronal(10,lectorCsv.cargarDatos(), 0.1981132075471698 ,0);
+		red.calcularRedNeuronal(200,lectorCsv.cargarDatos(), 0.1981132075471698 ,0);
 		//red.calcularRedNeuronal(25, datos, (float) 0.1 ,0);
-		red.calcularRedNeuronal(25, datosAnd, 0, 0);
+		//red.calcularRedNeuronal(25, datosAnd, 0, 0);
 	}
 }

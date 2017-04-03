@@ -9,16 +9,22 @@ import java.util.Random;
 public class PerceptronSimpleMejorado {
 		
 
+	/**
+	 * La función signo funciona con -1,1 y con 0,1
+	 * @param f
+	 * @param tipo
+	 * @return
+	 */
 	int funcionSigno(double f,int tipo) {
 		if ( tipo == 0){
 			// Positiva
-			if (f >= 0) {
+			if (f >= 0) {		// positiva ó 0
 				return 1;
-			} else if (f < 0) { // negativa ó 0
+			} else if (f < 0) { // negativa
 				return 0;
 			}
 		} else if ( tipo == -1){
-			if (f > 0) {
+			if (f > 0) {		// positiva
 				return 1;
 			} else if (f <= 0) { // negativa ó 0
 				return -1;
@@ -29,12 +35,11 @@ public class PerceptronSimpleMejorado {
 	}
 
 	/**
-	 * Calcular el potencial interno para k
-	 * 
-	 * @param peso1
-	 * @param peso2
-	 * @param x1
-	 * @param x2
+	 * Calcula el potencial interno de los datos,con los pesos y un umbral
+	 * @param datos	la matriz de datos con las entradas y salidas
+	 * @param pesos	los pesos asignados a cada coordenada
+	 * @param umbral
+	 * @param k	el tiempo actual
 	 * @return
 	 */
 	double calcularPotencialInterno(double[][] datos, double[] pesos, double umbral, int k) {
@@ -45,6 +50,13 @@ public class PerceptronSimpleMejorado {
 		return potencialInterno + umbral;
 	}
 	
+	/**
+	 * Calcula la razón de aprendizaje 
+	 * @param razon
+	 * @param t
+	 * @param itMax
+	 * @return
+	 */
 	double calcularRazonAprendizaje(double razon,int t, int itMax ){		
 		double alpha = 0.28;	// min 0.28 debido a la precisión de double
 		double c = itMax/2;
@@ -53,11 +65,14 @@ public class PerceptronSimpleMejorado {
 	}
 	
 	/**
-	 * Calcula el error cometido por la red cada vez que se modifican los pesos
+	 * Calcula el error del ejercicio1
 	 * @param sMuestras
-	 * @param peso1
-	 * @param peso2
 	 * @param umbral
+	 * @param datos
+	 * @param pesos
+	 * @param k
+	 * @param tipo
+	 * @return
 	 */
 	private double calcularErrorEjercicio1(double sMuestras,double umbral, double[][] datos,
 			double[] pesos, int k,int tipo) {
@@ -80,7 +95,7 @@ public class PerceptronSimpleMejorado {
 				error = error + Math.abs(valorDeseado - valorObtenido);
 			}
 			// Error=(1/2s)suma(Error(kt),t,1,s)
-			error = (double) (error*(1/(2*sMuestras)));
+			error = (double) (error*(1/(2*sMuestras)));			
 		}  else if ( tipo == 0 ){
 			// Calculamos el sumatorio de los kt y los falsos positivos y negativos
 			for ( int j = 0; j < sMuestras; j++){
@@ -100,13 +115,20 @@ public class PerceptronSimpleMejorado {
 			error = (double) (error*(1/(sMuestras)));
 		}
 
-
 		System.out.println("Error cometido por la red: " + error + " \nfalsos positivos: " 
 		+ falsosPositivos + " \nfalsos negativos: " + falsosNegativos);
 		return error;
 	}
 
 
+	/**
+	 * El método general de la red neuronal
+	 * @param itMax el número máximo de iteraciones
+	 * @param datos los datos a usar
+	 * @param errorAceptable el error para parar
+	 * @param tipo si es -1,1-> -1, si es 0,1->0
+	 * @return
+	 */
 	boolean calcularRedNeuronal(int itMax, double[][] datos, double errorAceptable, int tipo) {
 		// Inicio aleaotrio de los pesos y el umbral
 		Random rand = new Random();
@@ -143,7 +165,8 @@ public class PerceptronSimpleMejorado {
 			}
 		}
 
-		for (int i = 0; i <= itMax; i++) { // máximas iteraciones e iteración actual
+		// Empezamos a iterar hasta las iteraciones máximas
+		for (int i = 0; i <= itMax; i++) { 
 			System.out.println("\nVamos por la iteración: " + i + "/" + itMax);
 
 			// Comprobamos si y=d(x)
@@ -170,11 +193,9 @@ public class PerceptronSimpleMejorado {
 				} else if ( tipo == 0 ){
 					umbral = umbral + (razonAprendizaje * valorDeseado - valorObtenido);
 				}
-						
+										
+				k = 0;	// Si está mal clasificado volvemos a tener 0 muestras bien clasificadas
 				
-				k = 0;	// Si está mal clasificado volvemos a k=0
-				
-				// TO-DO mostramos los nuevos pesos
 				// Calculamos el error
 				calcularErrorEjercicio1(sMuestras, umbral,datos,pesos,k,tipo);				
 				
@@ -208,3 +229,4 @@ public class PerceptronSimpleMejorado {
 		return false;
 	}
 }
+
