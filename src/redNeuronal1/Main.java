@@ -23,7 +23,7 @@ public class Main {
 							{ 1, 1, 1 }};
 		double[][] datosOr = { { -1, -1, -1 }, { -1, 1, 1 }, { 1, -1, 1 }, { 1, 1, 1 } };
 		
-		red.calcularRedNeuronal(3000,lectorCsv.cargarDatos(), 0.1981132075471698,0);
+		red.calcularRedNeuronal(3000,lectorCsv.cargarDatos(),0.1509433962264151  ,0);
 		//red.calcularRedNeuronal(25, datos, (float) 0.1 ,0);
 		//red.calcularRedNeuronal(25, datosOr, 0, -1);
 	}

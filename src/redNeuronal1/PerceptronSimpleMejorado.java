@@ -58,7 +58,7 @@ public class PerceptronSimpleMejorado {
 	 * @return
 	 */
 	double calcularRazonAprendizaje(double razon,int t, int itMax ){		
-		double alpha = 0.9;	// min 0.28 debido a la precisión de double
+		double alpha = 0.28;	// min 0.28 debido a la precisión de double
 		double c = itMax/2;
 		razon = 1 / ( 1 + (Math.exp(Math.pow(alpha, (-t + c )) )));	
 		return razon;
@@ -221,7 +221,7 @@ public class PerceptronSimpleMejorado {
 				}
 			}
 			// Otro criterio de parada, el error aceptable
-			if ( calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k,tipo, false) <= errorAceptable){
+			if ( calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k,tipo, false) < errorAceptable){
 				for ( int l = 0 ; l < sMuestras; l++){
 					//System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
 				}
