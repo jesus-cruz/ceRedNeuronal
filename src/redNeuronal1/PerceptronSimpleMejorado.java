@@ -133,6 +133,7 @@ public class PerceptronSimpleMejorado {
 		// Inicio aleaotrio de los pesos y el umbral
 		Random rand = new Random();
 		double[] pesos = new double[datos[0].length-1];
+		double[] pesosIniciales = new double[datos[0].length-1];
 		double umbral = 0;
 				
 		// De casi 1 hasta una asíntota...
@@ -154,13 +155,13 @@ public class PerceptronSimpleMejorado {
 		if ( tipo == -1){			// -1,1
 			umbral = rand.nextDouble() * (1 - (-1)) + (-1);
 			for ( int i = 0 ; i < pesos.length ; i++){
-				pesos[i]= rand.nextDouble() * (1 - (-1)) + (-1);
+				pesosIniciales[i] = pesos[i]= rand.nextDouble() * (1 - (-1)) + (-1);
 				System.out.println("El peso " + i + " vale " + pesos[i]);
 			}
 		} else if ( tipo == 0) {	//  0,1
 			umbral = rand.nextDouble() * (1 - (0)) + (0);
 			for ( int i = 0 ; i < pesos.length ; i++){
-				pesos[i]= rand.nextDouble() * (1 - (0)) + (0);
+				pesosIniciales[i] = pesos[i]= rand.nextDouble() * (1 - (0)) + (0);
 				System.out.println("El peso " + i + " vale " + pesos[i]);
 			}
 		}
@@ -216,6 +217,10 @@ public class PerceptronSimpleMejorado {
 			// Otro criterio de parada, el error aceptable
 			if ( calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k,tipo) < errorAceptable){
 				System.out.println("Hemos llegado al error aceptable");
+				System.out.println("Los pesos iniciales valen:");
+				for ( int i1 = 0 ; i1 < pesos.length ; i1++){
+					System.out.println("El peso " + i1 + " vale " + pesos[i1]);
+				}
 				for ( int l = 0 ; l < sMuestras; l++){
 					System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
 				}
@@ -225,6 +230,10 @@ public class PerceptronSimpleMejorado {
 			System.out.println("La nueva gamma vale " + razonAprendizaje);
 		}
 		// hemos pasado el número máximo de iteraciones
+		System.out.println("Los pesos iniciales valen:");
+		for ( int i1 = 0 ; i1 < pesos.length ; i1++){
+			System.out.println("El peso " + i1 + " vale " + pesos[i1]);
+		}
 		System.out.println("\nHemos sobrepasado el número máximo de iteraciones" + "\nFIN");
 		return false;
 	}
