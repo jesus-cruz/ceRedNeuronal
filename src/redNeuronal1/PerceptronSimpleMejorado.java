@@ -58,7 +58,7 @@ public class PerceptronSimpleMejorado {
 	 * @return
 	 */
 	double calcularRazonAprendizaje(double razon,int t, int itMax ){		
-		double alpha = 0.28;	// min 0.28 debido a la precisión de double
+		double alpha = 0.9;	// min 0.28 debido a la precisión de double
 		double c = itMax/2;
 		razon = 1 / ( 1 + (Math.exp(Math.pow(alpha, (-t + c )) )));	
 		return razon;
@@ -72,10 +72,11 @@ public class PerceptronSimpleMejorado {
 	 * @param pesos
 	 * @param k
 	 * @param tipo
+	 * @param i 
 	 * @return
 	 */
 	private double calcularErrorEjercicio1(double sMuestras,double umbral, double[][] datos,
-			double[] pesos, int k,int tipo) {
+			double[] pesos, int k,int tipo, boolean imprimir) {
 		double error = 0, valorObtenido = 0,valorDeseado = 0;
 		int falsosPositivos = 0,falsosNegativos = 0;
 		
@@ -114,9 +115,11 @@ public class PerceptronSimpleMejorado {
 			// Error=(1/s)suma(Error(kt),t,1,s)
 			error = (double) (error*(1/(sMuestras)));
 		}
-
-		System.out.println("Error cometido por la red: " + error + " \nfalsos positivos: " 
-		+ falsosPositivos + " \nfalsos negativos: " + falsosNegativos);
+		if ( imprimir) {
+			System.out.println("Error cometido por la red: " + error + " \nfalsos positivos: " 
+					+ falsosPositivos + " \nfalsos negativos: " + falsosNegativos);
+		}
+		
 		return error;
 	}
 
@@ -133,7 +136,7 @@ public class PerceptronSimpleMejorado {
 		// Inicio aleaotrio de los pesos y el umbral
 		Random rand = new Random();
 		double[] pesos = new double[datos[0].length-1];
-		double[] pesosIniciales = new double[datos[0].length-1];
+		double[] pesosAntiguos = new double[datos[0].length-1];
 		double umbral = 0;
 				
 		// De casi 1 hasta una asíntota...
@@ -155,13 +158,13 @@ public class PerceptronSimpleMejorado {
 		if ( tipo == -1){			// -1,1
 			umbral = rand.nextDouble() * (1 - (-1)) + (-1);
 			for ( int i = 0 ; i < pesos.length ; i++){
-				pesosIniciales[i] = pesos[i]= rand.nextDouble() * (1 - (-1)) + (-1);
+				pesos[i]= pesosAntiguos[i] = rand.nextDouble() * (1 - (-1)) + (-1);
 				System.out.println("El peso " + i + " vale " + pesos[i]);
 			}
 		} else if ( tipo == 0) {	//  0,1
 			umbral = rand.nextDouble() * (1 - (0)) + (0);
 			for ( int i = 0 ; i < pesos.length ; i++){
-				pesosIniciales[i] = pesos[i]= rand.nextDouble() * (1 - (0)) + (0);
+				pesos[i]= pesosAntiguos[i] = rand.nextDouble() * (1 - (0)) + (0);
 				System.out.println("El peso " + i + " vale " + pesos[i]);
 			}
 		}
@@ -196,10 +199,7 @@ public class PerceptronSimpleMejorado {
 				}
 										
 				k = 0;	// Si está mal clasificado volvemos a tener 0 muestras bien clasificadas
-				
-				// Calculamos el error
-				calcularErrorEjercicio1(sMuestras, umbral,datos,pesos,k,tipo);				
-				
+							
 			} else if (valorDeseado - valorDeseado == 0) { // y == d(x)
 				System.out.println("La k" + k + " esta bien clasificada");
 				System.out.println("-----------------------------------\n");
@@ -207,33 +207,41 @@ public class PerceptronSimpleMejorado {
 				
 				// Comprobamos si ya están bien clasificadas todas las muestras
 				if (k == sMuestras) {
-					 calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k-1,tipo) ;
+					 calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k-1,tipo,true) ;
 					 for ( int l = 0 ; l < sMuestras; l++){
-						 System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
+						 //System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
 					 }
-					return true;
+					 System.out.println(" \nPesos iniciales");
+					 for ( int i1 = 0 ; i1 < pesos.length ; i1++){
+							System.out.println("El peso " + i1 + " vale " + pesosAntiguos[i1]);
+					 }
+					 
+					 System.out.println("\nHemos clasificado todas las muestras" + "\nFIN");
+					 return true;
 				}
 			}
 			// Otro criterio de parada, el error aceptable
-			if ( calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k,tipo) < errorAceptable){
-				System.out.println("Hemos llegado al error aceptable");
-				System.out.println("Los pesos iniciales valen:");
-				for ( int i1 = 0 ; i1 < pesos.length ; i1++){
-					System.out.println("El peso " + i1 + " vale " + pesos[i1]);
-				}
+			if ( calcularErrorEjercicio1(sMuestras, umbral, datos, pesos, k,tipo, false) <= errorAceptable){
 				for ( int l = 0 ; l < sMuestras; l++){
-					System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
+					//System.out.println(funcionSigno(calcularPotencialInterno(datos,pesos,umbral,l),tipo));
 				}
+				calcularErrorEjercicio1(sMuestras, umbral,datos,pesos,k,tipo,true);	
+				
+				System.out.println("\nPesos iniciales");
+				for ( int i1 = 0 ; i1 < pesos.length ; i1++){
+					System.out.println("El peso " + i1 + " vale " + pesosAntiguos[i1]);
+				}
+
+				System.out.println("\nHemos llegado al error aceptable" + "\nFIN");
 				return true;
 			}
+			// Calculamos el error
+			calcularErrorEjercicio1(sMuestras, umbral,datos,pesos,k,tipo,true);		
+			
 			razonAprendizaje = calcularRazonAprendizaje(razonAprendizaje, i, itMax);
 			System.out.println("La nueva gamma vale " + razonAprendizaje);
 		}
 		// hemos pasado el número máximo de iteraciones
-		System.out.println("Los pesos iniciales valen:");
-		for ( int i1 = 0 ; i1 < pesos.length ; i1++){
-			System.out.println("El peso " + i1 + " vale " + pesos[i1]);
-		}
 		System.out.println("\nHemos sobrepasado el número máximo de iteraciones" + "\nFIN");
 		return false;
 	}
