@@ -59,7 +59,7 @@ public class PerceptronSimpleMejorado {
 	 */
 	double calcularRazonAprendizaje(double razon,int t, int itMax ){		
 		double alpha = 0.28;	// min 0.28 debido a la precisión de double
-		double c = itMax/2;
+		double c = itMax*(8/9); // itMax/2 
 		razon = 1 / ( 1 + (Math.exp(Math.pow(alpha, (-t + c )) )));	
 		return razon;
 	}
