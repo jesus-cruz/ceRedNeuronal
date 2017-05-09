@@ -3,5 +3,4 @@
 - [ ] Clasificar datos  
   - [ ] Solución 
   - [ ] Vídeo
-- [ ] Red Neuronal en Java
-  - [ ] Código inicial
+
